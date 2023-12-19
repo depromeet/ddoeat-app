@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 import WebView from 'react-native-webview';
+import {IP_ADDRESS_AOS} from '@env';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
@@ -62,7 +63,9 @@ function App(): React.JSX.Element {
               originWhitelist={['http://*', 'https://*', 'intent:*']}
               decelerationRate="normal"
               source={{
-                uri: 'http://localhost:3000',
+                uri: `http://${
+                  Platform.OS === 'android' ? IP_ADDRESS_AOS : 'localhost'
+                }:3000`,
                 flex: 1,
               }}
             />
