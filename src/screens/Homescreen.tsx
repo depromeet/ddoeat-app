@@ -57,7 +57,7 @@ const HomeScreen = () => {
                 // uri: BASE_URL,
                 uri: `http://${
                   Platform.OS === 'android' ? IP_ADDRESS_AOS : 'localhost'
-                }:3000/auth`,
+                }:3000/auth?fromApp=true`,
                 flex: 1,
               }}
               ref={webViewRef}
