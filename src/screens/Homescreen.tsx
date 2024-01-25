@@ -12,8 +12,8 @@ import {
   useColorScheme,
 } from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-
-import BASE_URL from '../constants/baseUrl';
+import {IP_ADDRESS_AOS} from '@env';
+// import BASE_URL from '../constants/baseUrl';
 
 const HomeScreen = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -54,7 +54,10 @@ const HomeScreen = () => {
             />
             <WebView
               source={{
-                uri: BASE_URL,
+                // uri: BASE_URL,
+                uri: `http://${
+                  Platform.OS === 'android' ? IP_ADDRESS_AOS : 'localhost'
+                }:3000/auth`,
                 flex: 1,
               }}
               ref={webViewRef}
@@ -66,6 +69,7 @@ const HomeScreen = () => {
               showsHorizontalScrollIndicator={false}
               originWhitelist={['http://*', 'https://*', 'intent:*']}
               decelerationRate="normal"
+              webviewDebuggingEnabled={true}
             />
           </View>
         </View>
