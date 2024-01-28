@@ -1,7 +1,8 @@
+/* eslint-disable import/named */
 /* eslint-disable import/namespace */
 /* eslint-disable import/no-unresolved */
-import React, {useEffect, useRef} from 'react';
-import {WebView} from 'react-native-webview';
+import React, {useEffect, useRef, useState} from 'react';
+import {WebView, WebViewMessageEvent} from 'react-native-webview';
 import {
   BackHandler,
   Dimensions,
@@ -13,21 +14,39 @@ import {
 } from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {IP_ADDRESS_AOS} from '@env';
-// import BASE_URL from '../constants/baseUrl';
+
+import {useWebToken} from '../hooks/useWebToken';
 
 const HomeScreen = () => {
+  const {storeTokenFromWeb, getTokenFromStorage} = useWebToken();
+  const [uri, setUri] = useState('');
   const isDarkMode = useColorScheme() === 'dark';
+  const webViewRef = useRef<WebView>(null);
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
-  const webViewRef = useRef(null);
+
   const onAndroidBackPress = () => {
     if (webViewRef.current) {
       webViewRef.current?.goBack();
       return true;
     }
     return false;
+  };
+
+  const onGetMessage = async (event: WebViewMessageEvent) => {
+    try {
+      const data = JSON.parse(event.nativeEvent.data);
+
+      if (data.accessToken && data.refreshToken) {
+        await storeTokenFromWeb(data.accessToken, 'accessToken');
+        await storeTokenFromWeb(data.refreshToken, 'refreshToken');
+      }
+      return console.warn('Invalid data format');
+    } catch (error) {
+      console.warn('Error in receiving data');
+    }
   };
 
   useEffect(() => {
@@ -42,6 +61,25 @@ const HomeScreen = () => {
     }
   }, []);
 
+  useEffect(() => {
+    const updateUri = async () => {
+      try {
+        const accessToken = await getTokenFromStorage('accessToken');
+        const refreshToken = await getTokenFromStorage('refreshToken');
+
+        // TODO: 배포 시 배포 url로 변경하기
+        const newUri = `http://${
+          Platform.OS === 'android' ? IP_ADDRESS_AOS : 'localhost'
+        }:3000/auth?fromApp=true&accessToken=${accessToken}&refreshToken=${refreshToken}`;
+
+        setUri(newUri);
+      } catch (error) {
+        console.error('Error updating URI:', error);
+      }
+    };
+    updateUri();
+  }, [getTokenFromStorage]);
+
   return (
     <>
       <StatusBar barStyle="default" />
@@ -54,11 +92,7 @@ const HomeScreen = () => {
             />
             <WebView
               source={{
-                // uri: BASE_URL,
-                uri: `http://${
-                  Platform.OS === 'android' ? IP_ADDRESS_AOS : 'localhost'
-                }:3000/auth?fromApp=true`,
-                flex: 1,
+                uri: uri,
               }}
               ref={webViewRef}
               javaScriptEnabled
@@ -70,6 +104,7 @@ const HomeScreen = () => {
               originWhitelist={['http://*', 'https://*', 'intent:*']}
               decelerationRate="normal"
               webviewDebuggingEnabled={true}
+              onMessage={onGetMessage}
             />
           </View>
         </View>
