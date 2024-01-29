@@ -1,25 +1,11 @@
+/* eslint-disable import/namespace */
 import React, {useEffect, useRef} from 'react';
-import {
-  BackHandler,
-  Dimensions,
-  Platform,
-  StatusBar,
-  View,
-  useColorScheme,
-} from 'react-native';
-import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
-import WebView from 'react-native-webview';
-import {IP_ADDRESS_AOS} from '@env';
+import {BackHandler, Platform, View} from 'react-native';
 
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+// eslint-disable-next-line import/no-unresolved
+import MainNavigator from './src/navigation/MainNavigator';
 
 function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
   const webViewRef = useRef(null);
   const onAndroidBackPress = () => {
     if (webViewRef.current) {
@@ -42,37 +28,9 @@ function App(): React.JSX.Element {
   }, []);
 
   return (
-    <SafeAreaProvider>
-      <SafeAreaView edges={['top']}>
-        <View style={{height: Dimensions.get('window').height}}>
-          <View style={{flex: 1}}>
-            <StatusBar
-              barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-              backgroundColor={backgroundStyle.backgroundColor}
-            />
-
-            <WebView
-              setSupportMultipleWindows={false}
-              ref={webViewRef}
-              javaScriptEnabled
-              scalesPageToFit={false}
-              allowsBackForwardNavigationGestures
-              textZoom={100}
-              showsVerticalScrollIndicator={false}
-              showsHorizontalScrollIndicator={false}
-              originWhitelist={['http://*', 'https://*', 'intent:*']}
-              decelerationRate="normal"
-              source={{
-                uri: `http://${
-                  Platform.OS === 'android' ? IP_ADDRESS_AOS : 'localhost'
-                }:3000`,
-                flex: 1,
-              }}
-            />
-          </View>
-        </View>
-      </SafeAreaView>
-    </SafeAreaProvider>
+    <View style={{flex: 1}}>
+      <MainNavigator />
+    </View>
   );
 }
 
