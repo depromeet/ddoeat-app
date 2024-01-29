@@ -13,9 +13,9 @@ import {
   useColorScheme,
 } from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-import {IP_ADDRESS_AOS} from '@env';
 
 import {useWebToken} from '../hooks/useWebToken';
+import BASE_URL from '../constants/baseUrl';
 
 const HomeScreen = () => {
   const {storeTokenFromWeb, getTokenFromStorage} = useWebToken();
@@ -68,9 +68,9 @@ const HomeScreen = () => {
         const refreshToken = await getTokenFromStorage('refreshToken');
 
         // TODO: 배포 시 배포 url로 변경하기
-        const newUri = `http://${
-          Platform.OS === 'android' ? IP_ADDRESS_AOS : 'localhost'
-        }:3000/auth?fromApp=true&accessToken=${accessToken}&refreshToken=${refreshToken}`;
+        const newUri =
+          BASE_URL +
+          `?fromApp=true&accessToken=${accessToken}&refreshToken=${refreshToken}`;
 
         setUri(newUri);
       } catch (error) {
