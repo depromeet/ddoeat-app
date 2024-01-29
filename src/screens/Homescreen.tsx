@@ -103,7 +103,6 @@ const HomeScreen = () => {
               showsHorizontalScrollIndicator={false}
               originWhitelist={['http://*', 'https://*', 'intent:*']}
               decelerationRate="normal"
-              webviewDebuggingEnabled={true}
               onMessage={onGetMessage}
             />
           </View>
