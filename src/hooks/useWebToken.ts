@@ -18,5 +18,13 @@ export function useWebToken() {
     }
   };
 
-  return {storeTokenFromWeb, getTokenFromStorage};
+  const clearTokenFromStorage = async () => {
+    try {
+      await AsyncStorage.clear();
+    } catch (e) {
+      console.warn('error while clearing storage');
+    }
+  };
+
+  return {storeTokenFromWeb, getTokenFromStorage, clearTokenFromStorage};
 }

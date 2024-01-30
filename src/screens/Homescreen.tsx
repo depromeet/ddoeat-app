@@ -18,7 +18,8 @@ import {useWebToken} from '../hooks/useWebToken';
 import BASE_URL from '../constants/baseUrl';
 
 const HomeScreen = () => {
-  const {storeTokenFromWeb, getTokenFromStorage} = useWebToken();
+  const {storeTokenFromWeb, getTokenFromStorage, clearTokenFromStorage} =
+    useWebToken();
   const [uri, setUri] = useState('');
   const isDarkMode = useColorScheme() === 'dark';
   const webViewRef = useRef<WebView>(null);
@@ -39,11 +40,18 @@ const HomeScreen = () => {
     try {
       const data = JSON.parse(event.nativeEvent.data);
 
+      await clearTokenFromStorage();
+
       if (data.accessToken && data.refreshToken) {
-        await storeTokenFromWeb(data.accessToken, 'accessToken');
-        await storeTokenFromWeb(data.refreshToken, 'refreshToken');
+        const accessToken = data.accessToken;
+        const refreshToken = data.refreshToken;
+
+        await storeTokenFromWeb(accessToken, 'accessToken');
+        await storeTokenFromWeb(refreshToken, 'refreshToken');
+        return;
+      } else {
+        return;
       }
-      return console.warn('Invalid data format');
     } catch (error) {
       console.warn('Error in receiving data');
     }
@@ -66,11 +74,16 @@ const HomeScreen = () => {
       try {
         const accessToken = await getTokenFromStorage('accessToken');
         const refreshToken = await getTokenFromStorage('refreshToken');
+        let newUri;
 
-        // TODO: 배포 시 배포 url로 변경하기
-        const newUri =
-          BASE_URL +
-          `?fromApp=true&accessToken=${accessToken}&refreshToken=${refreshToken}`;
+        // NOTE: 앱에 저장된 토큰들이 없는 경우와 있는 경우 uri 분리
+        if (accessToken == null || refreshToken === null) {
+          newUri = BASE_URL + '?fromApp=true';
+        } else {
+          newUri =
+            BASE_URL +
+            `?fromApp=true&accessToken=${accessToken}&refreshToken=${refreshToken}`;
+        }
 
         setUri(newUri);
       } catch (error) {
@@ -103,6 +116,7 @@ const HomeScreen = () => {
               showsHorizontalScrollIndicator={false}
               originWhitelist={['http://*', 'https://*', 'intent:*']}
               decelerationRate="normal"
+              webviewDebuggingEnabled={true}
               onMessage={onGetMessage}
             />
           </View>
