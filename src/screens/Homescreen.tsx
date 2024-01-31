@@ -4,9 +4,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {WebView, WebViewMessageEvent} from 'react-native-webview';
 import {
-  BackHandler,
   Dimensions,
-  Platform,
   SafeAreaView,
   StatusBar,
   View,
@@ -16,6 +14,7 @@ import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 import {useWebToken} from '../hooks/useWebToken';
 import BASE_URL from '../constants/baseUrl';
+import {checkLocationPermission} from '../utils/checkLocationPermission';
 
 const HomeScreen = () => {
   const {storeTokenFromWeb, getTokenFromStorage, clearTokenFromStorage} =
@@ -26,14 +25,6 @@ const HomeScreen = () => {
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  const onAndroidBackPress = () => {
-    if (webViewRef.current) {
-      webViewRef.current?.goBack();
-      return true;
-    }
-    return false;
   };
 
   const onGetMessage = async (event: WebViewMessageEvent) => {
@@ -58,15 +49,11 @@ const HomeScreen = () => {
   };
 
   useEffect(() => {
-    if (Platform.OS === 'android') {
-      BackHandler.addEventListener('hardwareBackPress', onAndroidBackPress);
-      return () => {
-        BackHandler.removeEventListener(
-          'hardwareBackPress',
-          onAndroidBackPress,
-        );
-      };
-    }
+    const checkAndHandleLocationPermission = async () => {
+      await checkLocationPermission();
+    };
+
+    checkAndHandleLocationPermission();
   }, []);
 
   useEffect(() => {
