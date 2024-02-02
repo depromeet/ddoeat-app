@@ -1,6 +1,7 @@
 /* eslint-disable import/namespace */
 import React, {useEffect, useRef} from 'react';
-import {BackHandler, Platform, View} from 'react-native';
+import {BackHandler, Platform} from 'react-native';
+import 'react-native-url-polyfill/auto';
 
 // eslint-disable-next-line import/no-unresolved
 import MainNavigator from './src/navigation/MainNavigator';
@@ -27,11 +28,7 @@ function App(): React.JSX.Element {
     }
   }, []);
 
-  return (
-    <View style={{flex: 1}}>
-      <MainNavigator />
-    </View>
-  );
+  return <MainNavigator />;
 }
 
 export default App;

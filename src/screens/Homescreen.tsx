@@ -3,7 +3,7 @@
 /* eslint-disable import/no-unresolved */
 import React, {useEffect, useRef, useState} from 'react';
 import {WebView, WebViewMessageEvent} from 'react-native-webview';
-import {StatusBar, View, useColorScheme} from 'react-native';
+import {StatusBar, useColorScheme} from 'react-native';
 import {SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
@@ -77,30 +77,30 @@ const HomeScreen = () => {
 
   return (
     <SafeAreaProvider>
-      <SafeAreaView style={{backgroundColor: '#fff', flex: 1}}>
+      <SafeAreaView
+        style={{backgroundColor: '#fff', flex: 1}}
+        edges={['right', 'left', 'top']}>
         <StatusBar
           barStyle={isDarkMode ? 'light-content' : 'dark-content'}
           backgroundColor={backgroundStyle.backgroundColor}
         />
-        <View style={{flex: 1}}>
-          <WebView
-            source={{
-              uri: uri,
-            }}
-            style={{marginTop: 0, backgroundColor: '#fff'}}
-            ref={webViewRef}
-            javaScriptEnabled
-            scalesPageToFit={false}
-            allowsBackForwardNavigationGestures
-            textZoom={100}
-            showsVerticalScrollIndicator={false}
-            showsHorizontalScrollIndicator={false}
-            originWhitelist={['http://*', 'https://*', 'intent:*']}
-            decelerationRate="normal"
-            webviewDebuggingEnabled={true}
-            onMessage={onGetMessage}
-          />
-        </View>
+        <WebView
+          source={{
+            uri: uri,
+          }}
+          style={{marginTop: 0, backgroundColor: '#fff'}}
+          ref={webViewRef}
+          javaScriptEnabled
+          scalesPageToFit={false}
+          allowsBackForwardNavigationGestures
+          textZoom={100}
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
+          originWhitelist={['http://*', 'https://*', 'intent:*']}
+          decelerationRate="normal"
+          webviewDebuggingEnabled={true}
+          onMessage={onGetMessage}
+        />
       </SafeAreaView>
     </SafeAreaProvider>
   );
