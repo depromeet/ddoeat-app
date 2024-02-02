@@ -105,6 +105,7 @@ const HomeScreen = () => {
               decelerationRate="normal"
               webviewDebuggingEnabled={true}
               onMessage={onGetMessage}
+              allowsInlineMediaPlayback={true}
             />
           </View>
         </View>
