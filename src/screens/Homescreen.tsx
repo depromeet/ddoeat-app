@@ -3,13 +3,8 @@
 /* eslint-disable import/no-unresolved */
 import React, {useEffect, useRef, useState} from 'react';
 import {WebView, WebViewMessageEvent} from 'react-native-webview';
-import {
-  Dimensions,
-  SafeAreaView,
-  StatusBar,
-  View,
-  useColorScheme,
-} from 'react-native';
+import {StatusBar, View, useColorScheme} from 'react-native';
+import {SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 import {useWebToken} from '../hooks/useWebToken';
@@ -81,36 +76,35 @@ const HomeScreen = () => {
   }, [getTokenFromStorage]);
 
   return (
-    <>
-      <StatusBar barStyle="default" />
-      <SafeAreaView style={{flex: 1}}>
-        <View style={{height: Dimensions.get('window').height}}>
-          <View style={{flex: 1}}>
-            <StatusBar
-              barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-              backgroundColor={backgroundStyle.backgroundColor}
-            />
-            <WebView
-              source={{
-                uri: uri,
-              }}
-              ref={webViewRef}
-              javaScriptEnabled
-              scalesPageToFit={false}
-              allowsBackForwardNavigationGestures
-              textZoom={100}
-              showsVerticalScrollIndicator={false}
-              showsHorizontalScrollIndicator={false}
-              originWhitelist={['http://*', 'https://*', 'intent:*']}
-              decelerationRate="normal"
-              webviewDebuggingEnabled={true}
-              onMessage={onGetMessage}
-              allowsInlineMediaPlayback={true}
-            />
-          </View>
+    <SafeAreaProvider>
+      <SafeAreaView
+        style={{backgroundColor: '#fff', flex: 1}}
+        edges={['right', 'left', 'top']}>
+        <StatusBar
+          barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+          backgroundColor={backgroundStyle.backgroundColor}
+        />
+        <View style={{flex: 1}}>
+          <WebView
+            source={{
+              uri: uri,
+            }}
+            style={{marginTop: 0, backgroundColor: '#fff'}}
+            ref={webViewRef}
+            javaScriptEnabled
+            scalesPageToFit={false}
+            allowsBackForwardNavigationGestures
+            textZoom={100}
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
+            originWhitelist={['http://*', 'https://*', 'intent:*']}
+            decelerationRate="normal"
+            webviewDebuggingEnabled={true}
+            onMessage={onGetMessage}
+          />
         </View>
       </SafeAreaView>
-    </>
+    </SafeAreaProvider>
   );
 };
 
