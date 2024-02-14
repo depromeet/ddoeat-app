@@ -1,9 +1,9 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export function useWebToken() {
-  const storeTokenFromWeb = async (value: object, key: string) => {
+  const storeTokenFromWeb = async (value: string, key: string) => {
     try {
-      await AsyncStorage.setItem(key, JSON.stringify(value));
+      await AsyncStorage.setItem(key, value);
     } catch (e) {
       console.warn('error while saving token');
     }
