@@ -1380,7 +1380,7 @@ SPEC CHECKSUMS:
   hermes-engine: 34304f8c6e8fa68f63a5fe29af82f227d817d7a7
   libevent: 4049cae6c81cdb3654a443be001fb9bdceff7913
   lottie-ios: 3d98679b41fa6fd6aff2352b3953dbd3df8a397e
-  lottie-react-native: e7959d644e908ad6d1b104270c5331acd32e05ee
+  lottie-react-native: c1c6a1fd86e1942d69c2bc2e14212be72b55f3be
   OpenSSL-Universal: ebc357f1e6bc71fa463ccb2fe676756aff50e88c
   RCT-Folly: 7169b2b1c44399c76a47b5deaaba715eeeb476c0
   RCTRequired: 5e3631b27c08716986980ef23eed8abdee1cdcaf
@@ -1403,8 +1403,8 @@ SPEC CHECKSUMS:
   React-jsinspector: 9f6fb9ed9f03a0fb961ab8dc2e0e0ee0dc729e77
   React-logger: 008caec0d6a587abc1e71be21bfac5ba1662fe6a
   React-Mapbuffer: 58fe558faf52ecde6705376700f848d0293d1cef
-  react-native-safe-area-context: 5b8b7895f54d0652426f3f594643d5f5a077096c
-  react-native-webview: 1f443e2eaa7949a4f2bb0b2696a8439124234029
+  react-native-safe-area-context: 0ee144a6170530ccc37a0fd9388e28d06f516a89
+  react-native-webview: 88293a0f23eca8465c0433c023ec632930e644d0
   React-nativeconfig: a063483672b8add47a4875b0281e202908ff6747
   React-NativeModulesApple: 169506a5fd708ab22811f76ee06a976595c367a1
   React-perflogger: b61e5db8e5167f5e70366e820766c492847c082e
@@ -1425,10 +1425,10 @@ SPEC CHECKSUMS:
   React-runtimescheduler: 77543c74df984ce56c09d49d427149c53784aaf6
   React-utils: 42708ea436853045ef1eaff29996813d9fbbe209
   ReactCommon: 851280fb976399ca1aabc74cc2c3612069ea70a2
-  RNCAsyncStorage: 85e2462877b7f753d5350002967c5017afb2f64c
-  RNCMaskedView: ece6d915496b4f40483dcc4a37bbc5173b73a0f4
+  RNCAsyncStorage: 618d03a5f52fbccb3d7010076bc54712844c18ef
+  RNCMaskedView: 090213d32d8b3bb83a4dcb7d12c18f0152591906
   RNGestureHandler: 25b969a1ffc806b9f9ad2e170d4a3b049c6af85e
-  RNPermissions: 2b5a36068ec1f8ec8787ae08fe17de875ec93c32
+  RNPermissions: 250047ffa01a1fa65e870fcae3e2b87786acf0d8
   RNReanimated: 57f436e7aa3d277fbfed05e003230b43428157c0
   RNScreens: b582cb834dc4133307562e930e8fa914b8c04ef2
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
