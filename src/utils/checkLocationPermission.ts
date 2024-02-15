@@ -4,8 +4,11 @@ import {Platform} from 'react-native';
 
 // TODO: 현재는 AOS 로직만 추가한 상태
 export const checkLocationPermission = async (): Promise<boolean> => {
-  if (Platform.OS === 'android') {
-    const locationPermission = PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION;
+  if (Platform.OS === 'android' || Platform.OS === 'ios') {
+    const locationPermission =
+      Platform.OS === 'android'
+        ? PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION
+        : PERMISSIONS.IOS.LOCATION_WHEN_IN_USE;
 
     try {
       const result = await check(locationPermission);
